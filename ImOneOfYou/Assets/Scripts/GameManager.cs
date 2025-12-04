@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public int maxCharAmount;
     public string exampleString;
     public TextMeshProUGUI targetText;
+    public TextMeshProUGUI resultText;
     public TMP_InputField inputText;
 
     public static GameManager Instance { get; private set; }
@@ -21,14 +22,14 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            GenerateString();
-        }
-        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
-        {
-            CheckString(inputText.text);
-        }
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    GenerateString();
+        //}
+        //if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+        //{
+        //    CheckString(inputText.text);
+        //}
     }
 
     public void GenerateString()
@@ -42,15 +43,18 @@ public class GameManager : MonoBehaviour
         targetText.text = exampleString;
     }
 
-    public void CheckString(string inputString)
+
+
+    public void CheckString()
     {
+        string inputString = inputText.text;
         if (inputString == exampleString)
         {
-            Debug.Log("Zoogabazoo you got it let's kiss");
+            resultText.text = "Zoogabazoo you got it let's kiss";
         }
         else
         {
-            Debug.Log("GUARDS INCINERATE THIS MAN WITH COOL LASERS");
+            resultText.text = "GUARDS INCINERATE THIS MAN WITH COOL LASERS";
         }
     }
 }
