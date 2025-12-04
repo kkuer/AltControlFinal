@@ -13,6 +13,10 @@ public class AudioEffectsManager : MonoBehaviour
     public AudioClip currentAudioClip;
     public List<AudioClip> clipList = new List<AudioClip>();
 
+    //TESTING INPUTS
+    [SerializeField] private float currentSpeed;
+    [SerializeField] private float currentPitch;
+
 
     private void Awake()
     {
@@ -24,7 +28,48 @@ public class AudioEffectsManager : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.U)) //SPEED DOWN
+        {
+            currentSpeed -= 0.1f;
+            AdjustClipSpeed(currentSpeed);
+        }
 
+        if (Input.GetKeyDown(KeyCode.I)) //SPEED UP
+        {
+            currentSpeed += 0.1f;
+            AdjustClipSpeed(currentSpeed);
+        }
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            currentPitch -= 0.1f;
+            AdjustClipPitch(currentPitch);
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            currentPitch += 0.1f;
+            AdjustClipPitch(currentPitch);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (source.clip != null)
+            {
+                source.Play();
+                Debug.Log("Sound played");
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            ResetClipSpeed();
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            ResetClipPitch();
+        }
     }
 
     public void AdjustClipPitch(float value) //keep this between min 0.5 and 2.0 max

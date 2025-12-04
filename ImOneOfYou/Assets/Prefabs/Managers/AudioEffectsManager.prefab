@@ -42,11 +42,11 @@ AudioSource:
   m_GameObject: {fileID: 5175488257370913064}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: ac1b28f3581e5a143866eb9ca624b96b, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_PlayOnAwake: 0
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -142,3 +142,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2ddc91da7c495a44a8dcddfb41accca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioEffectsManager
+  mixer: {fileID: 0}
+  currentAudioClip: {fileID: 0}
+  clipList: []
