@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.InputSystem;
 
 public class AudioEffectsManager : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class AudioEffectsManager : MonoBehaviour
     [SerializeField] private float currentSpeed;
     [SerializeField] private float currentPitch;
 
+    [SerializeField] private Keyboard k;
 
     private void Awake()
     {
@@ -26,33 +28,69 @@ public class AudioEffectsManager : MonoBehaviour
         source = GetComponent<AudioSource>();
     }
 
+    private void Start()
+    {
+        k = Keyboard.current;
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.U)) //SPEED DOWN
+        if (k.uKey.wasPressedThisFrame) //SPEED DOWN
         {
-            currentSpeed -= 0.1f;
+            if (currentSpeed <= 0.5f)
+            {
+
+            }
+            else
+            {
+                currentSpeed -= 0.1f;
+            }
+
             AdjustClipSpeed(currentSpeed);
         }
 
-        if (Input.GetKeyDown(KeyCode.I)) //SPEED UP
+        if (k.iKey.wasPressedThisFrame) //SPEED UP
         {
-            currentSpeed += 0.1f;
+            if (currentSpeed >= 2.0f)
+            {
+
+            }
+            else
+            {
+                currentSpeed += 0.1f;
+            }
+
             AdjustClipSpeed(currentSpeed);
         }
 
-        if (Input.GetKeyDown(KeyCode.O))
+        if (k.oKey.wasPressedThisFrame)
         {
-            currentPitch -= 0.1f;
+            if (currentPitch <= 0.5f)
+            {
+
+            }
+            else
+            {
+                currentPitch -= 0.1f;
+            }
             AdjustClipPitch(currentPitch);
         }
 
-        if (Input.GetKeyDown(KeyCode.P))
+        if (k.pKey.wasPressedThisFrame)
         {
-            currentPitch += 0.1f;
+            if (currentPitch >= 2.0f)
+            {
+
+            }
+            else
+            {
+                currentPitch += 0.1f;
+            }
+            
             AdjustClipPitch(currentPitch);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (k.spaceKey.wasPressedThisFrame)
         {
             if (source.clip != null)
             {
@@ -61,12 +99,12 @@ public class AudioEffectsManager : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.W))
+        if (k.wKey.wasPressedThisFrame)
         {
             ResetClipSpeed();
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
+        if (k.sKey.wasPressedThisFrame)
         {
             ResetClipPitch();
         }
@@ -74,11 +112,12 @@ public class AudioEffectsManager : MonoBehaviour
 
     public void AdjustClipPitch(float value) //keep this between min 0.5 and 2.0 max
     {
-        mixer.SetFloat("Pitch", value);
+        mixer.SetFloat("Pitch", 1f * value);
     }
 
     public void ResetClipPitch()
     {
+        currentPitch = 1f;
         mixer.SetFloat("Pitch", 1f);
     }
 
@@ -88,12 +127,13 @@ public class AudioEffectsManager : MonoBehaviour
         if (mixer.GetFloat("Pitch", out currentPitch))
         {
             source.pitch = speed;
-            mixer.SetFloat("Pitch", currentPitch / speed);
+            mixer.SetFloat("Pitch", 1f / speed);
         }
     }
 
     public void ResetClipSpeed()
     {
+        currentSpeed = 1f;
         source.pitch = 1;
     }
 }

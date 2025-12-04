@@ -440,10 +440,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3740866308789698682, guid: d761149501e31604cb928d675131dbaa, type: 3}
-      propertyPath: currentAudioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: dea6c0849c4c2e64fb76e2f29b593fa1, type: 3}
     - target: {fileID: 5175488257370913064, guid: d761149501e31604cb928d675131dbaa, type: 3}
       propertyPath: m_Name
       value: AudioEffectsManager
@@ -488,10 +484,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8670357671616951403, guid: d761149501e31604cb928d675131dbaa, type: 3}
-      propertyPath: m_Resource
-      value: 
-      objectReference: {fileID: 8300000, guid: dea6c0849c4c2e64fb76e2f29b593fa1, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

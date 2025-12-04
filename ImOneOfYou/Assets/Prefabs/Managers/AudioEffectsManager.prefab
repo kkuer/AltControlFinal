@@ -44,7 +44,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: ac1b28f3581e5a143866eb9ca624b96b, type: 2}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: dea6c0849c4c2e64fb76e2f29b593fa1, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.2
   m_Pitch: 1
@@ -142,6 +142,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2ddc91da7c495a44a8dcddfb41accca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioEffectsManager
-  mixer: {fileID: 0}
-  currentAudioClip: {fileID: 0}
+  mixer: {fileID: 24100000, guid: ac1b28f3581e5a143866eb9ca624b96b, type: 2}
+  currentAudioClip: {fileID: 8300000, guid: dea6c0849c4c2e64fb76e2f29b593fa1, type: 3}
   clipList: []
+  currentSpeed: 1
+  currentPitch: 1
