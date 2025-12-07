@@ -12,6 +12,13 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI resultText;
     public TMP_InputField inputText;
 
+    public AudioDrawer Audio1;
+    public AudioDrawer Audio2;
+
+    public float correctRange;
+
+    public float waveMagnitude;
+
     public static GameManager Instance { get; private set; }
 
     private void Awake()
@@ -22,6 +29,10 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            CompareAudio();
+        }
         //if (Input.GetKeyDown(KeyCode.R))
         //{
         //    GenerateString();
@@ -55,6 +66,19 @@ public class GameManager : MonoBehaviour
         else
         {
             resultText.text = "GUARDS INCINERATE THIS MAN WITH COOL LASERS";
+        }
+    }
+
+    public void CompareAudio()
+    {
+        waveMagnitude = Mathf.Abs(Audio1.waveformPercentage - Audio2.waveformPercentage);
+        if (waveMagnitude < correctRange)
+        {
+            Debug.Log("Success!");
+        }
+        else
+        {
+            Debug.Log("Fail!");
         }
     }
 }
