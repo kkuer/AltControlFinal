@@ -26,22 +26,10 @@ public class AudioDrawer : MonoBehaviour
     private float[] waveform = null;
     //private float arrowoffsetx;
 
+
     private void Start()
     {
-        // reference components on the gameobject
-        aud = this.GetComponent<AudioSource>();
-        sprend = this.GetComponent<SpriteRenderer>();
-
-        Texture2D texwav = GetWaveform();
-        Rect rect = new Rect(Vector2.zero, new Vector2(width, height));
-        sprend.sprite = Sprite.Create(texwav, rect, Vector2.zero);
-
-
-        //arrow.transform.position = new Vector3(0f, 0f);
-        //arrowoffsetx = -(arrow.GetComponent<SpriteRenderer>().size.x / 2f);
-
-        //cam.transform.position = new Vector3(0f, 0f, -1f);
-        //cam.transform.Translate(Vector3.right * (sprend.size.x / 2f));
+        //DrawWaveform();
     }
     private void Update()
     {
@@ -121,7 +109,23 @@ public class AudioDrawer : MonoBehaviour
         //}
 
         return tex;
+    }
+
+    public void DrawWaveform()
+    {
+        // reference components on the gameobject
+        aud = this.GetComponent<AudioSource>();
+        sprend = this.GetComponent<SpriteRenderer>();
+
+        Texture2D texwav = GetWaveform();
+        Rect rect = new Rect(Vector2.zero, new Vector2(width, height));
+        sprend.sprite = Sprite.Create(texwav, rect, Vector2.zero);
 
 
+        //arrow.transform.position = new Vector3(0f, 0f);
+        //arrowoffsetx = -(arrow.GetComponent<SpriteRenderer>().size.x / 2f);
+
+        //cam.transform.position = new Vector3(0f, 0f, -1f);
+        //cam.transform.Translate(Vector3.right * (sprend.size.x / 2f));
     }
 }
