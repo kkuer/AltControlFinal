@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Sprite))]
 public class AudioDrawer : MonoBehaviour
 {
-    public bool drawImmediately;
+    public bool hello;
     public int width = 1024;
     public int height = 64;
     public Color background = Color.black;
@@ -29,18 +29,7 @@ public class AudioDrawer : MonoBehaviour
 
     private void Start()
     {
-        if (drawImmediately)
-        {
-            DrawWaveform();
-        }
-        else
-        {
-            sprend = this.GetComponent<SpriteRenderer>();
-            Rect rect = new Rect(Vector2.zero, new Vector2(width, height));
-            Texture2D tex = new Texture2D(width, height, TextureFormat.RGB565, false);
-            sprend.sprite = Sprite.Create(tex, rect, Vector2.zero);
-            sprend.color = Color.black;
-        }
+        //DrawWaveform();
     }
     private void Update()
     {
@@ -50,7 +39,6 @@ public class AudioDrawer : MonoBehaviour
     }
     private Texture2D GetWaveform()
     {
-        sprend.color = Color.white;
         int halfheight = height / 2;
         float heightscale = (float)height * 0.75f;
 
