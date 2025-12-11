@@ -1084,7 +1084,7 @@ MonoBehaviour:
   inputText: {fileID: 635091265}
   Audio1: {fileID: 1435855196}
   Audio2: {fileID: 1941772144}
-  correctRange: 6
+  correctRange: 3
   waveMagnitude: 0
 --- !u!4 &508061000
 Transform:
@@ -2641,7 +2641,7 @@ GameObject:
   - component: {fileID: 1435855197}
   - component: {fileID: 1435855196}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2659,7 +2659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfd0b4f7e4bb00a4bb1a181ca0dd27cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioDrawer
-  hello: 0
+  drawImmediately: 1
   width: 1024
   height: 64
   background: {r: 0, g: 0, b: 0, a: 1}
@@ -3434,7 +3434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfd0b4f7e4bb00a4bb1a181ca0dd27cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioDrawer
-  hello: 0
+  drawImmediately: 0
   width: 1024
   height: 64
   background: {r: 0, g: 0, b: 0, a: 1}
