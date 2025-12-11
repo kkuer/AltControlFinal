@@ -1,23 +1,36 @@
+using NUnit.Framework;
 using TMPro;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
 
     const string glyphs = "azbagoobawagazxail";
+
     public int minCharAmount;
     public int maxCharAmount;
+
     public string exampleString;
+
     public TextMeshProUGUI targetText;
     public TextMeshProUGUI resultText;
+
     public TMP_InputField inputText;
 
-    public AudioDrawer Audio1;
-    public AudioDrawer Audio2;
+    public AudioDrawer audioDrawerTarget;
+    public AudioDrawer audioDrawerInput;
+
+    public AudioSource targetAudio;
+    public AudioSource inputAudio;
+
+    public AudioClip selectedAudio;
 
     public float correctRange;
 
     public float waveMagnitude;
+
+    public List<AudioClip> clipList = new List<AudioClip>();
 
     public static GameManager Instance { get; private set; }
 
@@ -25,6 +38,7 @@ public class GameManager : MonoBehaviour
     {
         if (Instance == null) { Instance = this; }
         else { Destroy(gameObject); }
+        RandomizeTarget();
     }
 
     public void Update()
@@ -71,7 +85,7 @@ public class GameManager : MonoBehaviour
 
     public void CompareAudio()
     {
-        waveMagnitude = Mathf.Abs(Audio1.waveformPercentage - Audio2.waveformPercentage);
+        waveMagnitude = Mathf.Abs(audioDrawerTarget.waveformPercentage - audioDrawerInput.waveformPercentage);
         if (waveMagnitude < correctRange)
         {
             Debug.Log("Success!");
@@ -81,4 +95,15 @@ public class GameManager : MonoBehaviour
             Debug.Log("Fail!");
         }
     }
+
+    public void RandomizeTarget()
+    {
+        selectedAudio = clipList[Random.Range(0, clipList.Count)];
+        targetAudio.clip = selectedAudio;
+        audioDrawerTarget.drawNow = true;
+        //audioDrawerInput.GetWaveform();
+        //audioDrawerInput.DrawWaveform();
+    }
+
+
 }

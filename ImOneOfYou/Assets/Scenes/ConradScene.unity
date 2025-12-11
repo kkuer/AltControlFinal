@@ -1082,10 +1082,18 @@ MonoBehaviour:
   targetText: {fileID: 118679514}
   resultText: {fileID: 127992019}
   inputText: {fileID: 635091265}
-  Audio1: {fileID: 1435855196}
-  Audio2: {fileID: 1941772144}
+  audioDrawerTarget: {fileID: 1435855196}
+  audioDrawerInput: {fileID: 1941772144}
+  targetAudio: {fileID: 1435855197}
+  inputAudio: {fileID: 1941772145}
+  selectedAudio: {fileID: 0}
   correctRange: 3
   waveMagnitude: 0
+  clipList:
+  - {fileID: 8300000, guid: d1361b3f530380a4cbcb5a8a088a7b67, type: 3}
+  - {fileID: 8300000, guid: c474509a487e4494ba94ee0ee8269a9f, type: 3}
+  - {fileID: 8300000, guid: 6d939a6af4716eb45bb04b479f2c4beb, type: 3}
+  - {fileID: 8300000, guid: fb78115044368154bad85f7625ad7df9, type: 3}
 --- !u!4 &508061000
 Transform:
   m_ObjectHideFlags: 0
@@ -2659,6 +2667,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfd0b4f7e4bb00a4bb1a181ca0dd27cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioDrawer
+  drawNow: 0
   drawImmediately: 1
   width: 1024
   height: 64
@@ -2814,15 +2823,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1435855199
@@ -3434,7 +3443,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfd0b4f7e4bb00a4bb1a181ca0dd27cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioDrawer
-  drawImmediately: 0
+  drawNow: 0
+  drawImmediately: 1
   width: 1024
   height: 64
   background: {r: 0, g: 0, b: 0, a: 1}
@@ -3456,7 +3466,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 0c762542291480a4085e7093a5ce9a0f, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -3589,15 +3599,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1941772147
@@ -3714,6 +3724,18 @@ MonoBehaviour:
       - m_Target: {fileID: 508060999}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: CompareAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 508060999}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: RandomizeTarget
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

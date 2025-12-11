@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Sprite))]
 public class AudioDrawer : MonoBehaviour
 {
+    public bool drawNow;
     public bool drawImmediately;
     public int width = 1024;
     public int height = 64;
@@ -31,28 +32,40 @@ public class AudioDrawer : MonoBehaviour
     {
         if (drawImmediately)
         {
+            GetWaveform();
             DrawWaveform();
         }
-        else
-        {
-            sprend = this.GetComponent<SpriteRenderer>();
-            Rect rect = new Rect(Vector2.zero, new Vector2(width, height));
-            Texture2D tex = new Texture2D(width, height, TextureFormat.RGB565, false);
-            sprend.sprite = Sprite.Create(tex, rect, Vector2.zero);
-            sprend.color = Color.black;
-        }
+        //else
+        //{
+        //    sprend = this.GetComponent<SpriteRenderer>();
+        //    Rect rect = new Rect(Vector2.zero, new Vector2(width, height));
+        //    Texture2D tex = new Texture2D(width, height, TextureFormat.RGB565, false);
+        //    sprend.sprite = Sprite.Create(tex, rect, Vector2.zero);
+        //    sprend.color = Color.black;
+        //}
     }
     private void Update()
     {
+        if (drawNow)
+        {
+            DrawWaveform();
+            drawNow = false;
+        }
         //// move the arrow
         //float xoffset = (aud.time / aud.clip.length) * sprend.size.x;
         //arrow.transform.position = new Vector3(xoffset + arrowoffsetx, 0);
     }
-    private Texture2D GetWaveform()
+    public Texture2D GetWaveform()
     {
+        Debug.Log("GetWaveformCalled");
+        aud = this.GetComponent<AudioSource>();
+        sprend = this.GetComponent<SpriteRenderer>();
+        sprend.sprite = null;
         sprend.color = Color.white;
         int halfheight = height / 2;
         float heightscale = (float)height * 0.75f;
+
+        Debug.Log($"I am {gameObject.name} and my audio clip is {aud.clip.name}", gameObject);
 
         // get the sound data
         Texture2D tex = new Texture2D(width, height, TextureFormat.RGBA32, false);
@@ -93,6 +106,9 @@ public class AudioDrawer : MonoBehaviour
 
         pixels = tex.GetPixels();
 
+        arrayCount = 0;
+        backgroundPixelCount = 0;
+        waveformPixelCount = 0;
         for (var i  = 0; i < pixels.Length; i++)
         {
             arrayCount++;
@@ -129,6 +145,7 @@ public class AudioDrawer : MonoBehaviour
         aud = this.GetComponent<AudioSource>();
         sprend = this.GetComponent<SpriteRenderer>();
 
+        sprend.sprite = null;
         Texture2D texwav = GetWaveform();
         Rect rect = new Rect(Vector2.zero, new Vector2(width, height));
         sprend.sprite = Sprite.Create(texwav, rect, Vector2.zero);
