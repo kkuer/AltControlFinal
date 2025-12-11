@@ -2,6 +2,8 @@ using NUnit.Framework;
 using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,12 +13,17 @@ public class GameManager : MonoBehaviour
     public int minCharAmount;
     public int maxCharAmount;
 
-    public string exampleString;
+    public int roundCount;
+    public float suspicionPercent;
 
-    public TextMeshProUGUI targetText;
-    public TextMeshProUGUI resultText;
+    //public string exampleString;
 
-    public TMP_InputField inputText;
+    //public TextMeshProUGUI targetText;
+    //public TextMeshProUGUI resultText;
+    public TextMeshProUGUI susText;
+    public TextMeshProUGUI roundText;
+
+    //public TMP_InputField inputText;  
 
     public AudioDrawer audioDrawerTarget;
     public AudioDrawer audioDrawerInput;
@@ -47,6 +54,8 @@ public class GameManager : MonoBehaviour
         {
             CompareAudio();
         }
+        susText.text = $"Suspicion: {Mathf.RoundToInt(suspicionPercent)}%";
+        roundText.text = $"Successful Social Interactions: {roundCount}. Good for you.";
         //if (Input.GetKeyDown(KeyCode.R))
         //{
         //    GenerateString();
@@ -57,42 +66,59 @@ public class GameManager : MonoBehaviour
         //}
     }
 
-    public void GenerateString()
-    {
-        exampleString = string.Empty;
-        int charAmount = Random.Range(minCharAmount, maxCharAmount);
-        for (int i = 0; i<charAmount; i++)
-        {
-            exampleString += glyphs[Random.Range(0, glyphs.Length)];
-        }
-        targetText.text = exampleString;
-    }
+    //public void GenerateString()
+    //{
+    //    exampleString = string.Empty;
+    //    int charAmount = Random.Range(minCharAmount, maxCharAmount);
+    //    for (int i = 0; i<charAmount; i++)
+    //    {
+    //        exampleString += glyphs[Random.Range(0, glyphs.Length)];
+    //    }
+    //    targetText.text = exampleString;
+    //}
 
 
 
-    public void CheckString()
-    {
-        string inputString = inputText.text;
-        if (inputString == exampleString)
-        {
-            resultText.text = "Zoogabazoo you got it let's kiss";
-        }
-        else
-        {
-            resultText.text = "GUARDS INCINERATE THIS MAN WITH COOL LASERS";
-        }
-    }
+    //public void CheckString()
+    //{
+    //    string inputString = inputText.text;
+    //    if (inputString == exampleString)
+    //    {
+    //        resultText.text = "Zoogabazoo you got it let's kiss";
+    //    }
+    //    else
+    //    {
+    //        resultText.text = "GUARDS INCINERATE THIS MAN WITH COOL LASERS";
+    //    }
+    //}
 
     public void CompareAudio()
     {
         waveMagnitude = Mathf.Abs(audioDrawerTarget.waveformPercentage - audioDrawerInput.waveformPercentage);
         if (waveMagnitude < correctRange)
         {
+            suspicionPercent = suspicionPercent - (correctRange - waveMagnitude);
+            roundCount++;
+            if (suspicionPercent < 0)
+            {
+                suspicionPercent = 0;
+            }
+            StartCoroutine(RandomSounds());
             Debug.Log("Success!");
         }
         else
         {
+            StartCoroutine(RandomSounds());
+            suspicionPercent = suspicionPercent + 20;
             Debug.Log("Fail!");
+            if (suspicionPercent >= 100)
+            {
+                SceneManager.LoadScene(2);
+            }
+            else
+            {
+                roundCount++;
+            }
         }
     }
 
@@ -105,5 +131,10 @@ public class GameManager : MonoBehaviour
         //audioDrawerInput.DrawWaveform();
     }
 
+    public IEnumerator RandomSounds()
+    {
+        yield return new WaitForSeconds(1);
+        RandomizeTarget();  
+    }
 
 }
