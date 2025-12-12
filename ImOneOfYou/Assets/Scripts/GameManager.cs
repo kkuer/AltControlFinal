@@ -45,7 +45,6 @@ public class GameManager : MonoBehaviour
     {
         if (Instance == null) { Instance = this; }
         else { Destroy(gameObject); }
-        RandomizeTarget();
     }
 
     public void Update()
@@ -126,6 +125,7 @@ public class GameManager : MonoBehaviour
     {
         selectedAudio = clipList[Random.Range(0, clipList.Count)];
         targetAudio.clip = selectedAudio;
+        targetAudio.Play();
         audioDrawerTarget.drawNow = true;
         //audioDrawerInput.GetWaveform();
         //audioDrawerInput.DrawWaveform();
