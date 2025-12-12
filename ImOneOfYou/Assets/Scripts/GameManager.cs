@@ -16,17 +16,25 @@ public class GameManager : MonoBehaviour
     public int roundCount;
     public float suspicionPercent;
 
+    public float speedHigh;
+    public float speedLow;
+    public float pitchHigh;
+    public float pitchLow;
+
     //public string exampleString;
 
     //public TextMeshProUGUI targetText;
     //public TextMeshProUGUI resultText;
     public TextMeshProUGUI susText;
     public TextMeshProUGUI roundText;
+    public TextMeshProUGUI timerText;
 
     //public TMP_InputField inputText;  
 
     public AudioDrawer audioDrawerTarget;
     public AudioDrawer audioDrawerInput;
+
+    public MicrophoneRecorder microphoneRecorderScript;
 
     public AudioSource targetAudio;
     public AudioSource inputAudio;
@@ -43,13 +51,32 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        timerText.enabled = false;
         if (Instance == null) { Instance = this; }
         else { Destroy(gameObject); }
+        RandomizeTarget();
+    }
+
+    public IEnumerator startRecordin()
+    {
+        yield return new WaitForSeconds(6);
+        timerText.enabled = true;
+        timerText.text = "3";
+        yield return new WaitForSeconds(1);
+        timerText.text = "2";
+        yield return new WaitForSeconds(1);
+        timerText.text = "1";
+        yield return new WaitForSeconds(1);
+        timerText.text = "GO!";
+        microphoneRecorderScript.StartRecording();
+        yield return new WaitForSeconds(6);
+        microphoneRecorderScript.StopRecording();
+        timerText.enabled = false;
     }
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             CompareAudio();
         }
@@ -125,8 +152,10 @@ public class GameManager : MonoBehaviour
     {
         selectedAudio = clipList[Random.Range(0, clipList.Count)];
         targetAudio.clip = selectedAudio;
+        targetAudio.pitch = Random.Range(pitchLow,pitchHigh);
         targetAudio.Play();
         audioDrawerTarget.drawNow = true;
+        StartCoroutine(startRecordin());
         //audioDrawerInput.GetWaveform();
         //audioDrawerInput.DrawWaveform();
     }

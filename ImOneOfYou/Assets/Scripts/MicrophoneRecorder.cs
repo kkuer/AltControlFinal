@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class MicrophoneRecorder : MonoBehaviour
@@ -5,6 +6,20 @@ public class MicrophoneRecorder : MonoBehaviour
     private AudioClip recordedClip;
     [SerializeField] AudioSource audioSource;
 
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            PlayRecording();
+        }
+    }
+
+    public IEnumerator startProcess()
+    {
+        StartRecording();
+        yield return new WaitForSeconds(6);
+        StopRecording();
+    }
     public void StartRecording()
     {
         string mic = Microphone.devices[0];
