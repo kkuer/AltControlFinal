@@ -5,6 +5,7 @@ public class MicrophoneRecorder : MonoBehaviour
 {
     private AudioClip recordedClip;
     [SerializeField] AudioSource audioSource;
+    public AudioDrawer audioDrawScript;
 
     public void Update()
     {
@@ -31,11 +32,15 @@ public class MicrophoneRecorder : MonoBehaviour
 
     public void StopRecording()
     {
+        audioDrawScript.drawNow = true;
+        audioDrawScript.DrawWaveform();
         Microphone.End(null);
     }
 
     public void PlayRecording()
     {
+        audioDrawScript.drawNow = true;
+        audioDrawScript.DrawWaveform();
         audioSource.clip = recordedClip;
         audioSource.Play();
     }
