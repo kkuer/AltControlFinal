@@ -152,7 +152,7 @@ public class GameManager : MonoBehaviour
     {
         selectedAudio = clipList[Random.Range(0, clipList.Count)];
         targetAudio.clip = selectedAudio;
-        targetAudio.pitch = Random.Range(pitchLow,pitchHigh);
+        //targetAudio.pitch = Random.Range(pitchLow,pitchHigh);
         targetAudio.Play();
         audioDrawerTarget.drawNow = true;
         StartCoroutine(startRecordin());
