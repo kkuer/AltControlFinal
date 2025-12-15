@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class StartGame : MonoBehaviour
 {
     public Button ThisBtn;
+    public int sceneToLoad;
     void Start()
     {
         Button btn = ThisBtn;
@@ -12,6 +13,6 @@ public class StartGame : MonoBehaviour
     }
     public void StartThaVideogameBoss()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(sceneToLoad);
     }
 }
