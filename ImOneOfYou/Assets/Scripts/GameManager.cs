@@ -4,10 +4,10 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
-
     const string glyphs = "azbagoobawagazxail";
 
     public int minCharAmount;
@@ -45,7 +45,8 @@ public class GameManager : MonoBehaviour
 
     public float waveMagnitude;
 
-    public List<AudioClip> clipList = new List<AudioClip>();
+    public List<AlienNoise> clipList = new List<AlienNoise>();
+    public List<AlienNoise> usedClips = new List<AlienNoise>();
 
     public static GameManager Instance { get; private set; }
 
@@ -150,7 +151,14 @@ public class GameManager : MonoBehaviour
 
     public void RandomizeTarget()
     {
-        selectedAudio = clipList[Random.Range(0, clipList.Count)];
+        var availableClips = clipList.Except(usedClips).ToList();
+        if (availableClips.Count == 0) { usedClips.Clear(); availableClips = clipList.ToList(); }
+
+        AlienNoise newNoise = availableClips[Random.Range(0, clipList.Count)];
+        usedClips.Add(newNoise);
+
+        selectedAudio = newNoise.clip;
+
         targetAudio.clip = selectedAudio;
         //targetAudio.pitch = Random.Range(pitchLow,pitchHigh);
         targetAudio.Play();
