@@ -69,9 +69,9 @@ public class GameManager : MonoBehaviour
         timerText.text = "1";
         yield return new WaitForSeconds(1);
         timerText.text = "GO!";
-        microphoneRecorderScript.StartRecording();
+        microphoneRecorderScript.startFunction();
         yield return new WaitForSeconds(6);
-        microphoneRecorderScript.StopRecording();
+        //microphoneRecorderScript.StopRecording();
         timerText.enabled = false;
     }
 
