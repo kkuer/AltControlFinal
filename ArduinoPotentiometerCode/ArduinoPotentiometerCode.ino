@@ -16,13 +16,11 @@ void loop() {
   int pitchValue = analogRead(A1);
   int speedValue = analogRead(A0);
 
-float roundedPitchValue = pitchValue / 1023.0f;
-float roundedSpeedValue = speedValue / 1023.0f;
   // Print the value to the Serial Monitor:
-  if (lastPitchValue != pitchValue)
-    {Serial.println(roundedPitchValue);}
+  if (lastPitchValue != pitchValue || lastPitchValue < pitchValue - 1 || lastPitchValue > pitchValue + 1)
+    {Serial.println("Pitch: " + String(pitchValue));}
   if(lastSpeedValue != speedValue)
-    {Serial.println(roundedSpeedValue);}
+    {Serial.println("Speed: " + String(speedValue));}
   
   // Add a small delay for stable readings
   lastPitchValue = pitchValue;
