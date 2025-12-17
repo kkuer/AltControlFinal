@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MicrophoneRecorder : MonoBehaviour
@@ -10,10 +12,12 @@ public class MicrophoneRecorder : MonoBehaviour
     public float moveForwards;
     public float forwardsCoefficient;
     public GameObject drawingCursor;
+    public GameObject cursorCopy;
+    public GameObject cursorCopyInst;
+    public List<GameObject> cursorCopyList = new List<GameObject>();
     private AudioClip recordedClip;
     [SerializeField] AudioSource audioSource;
     public AudioDrawer audioDrawScript;
-    public TrailRenderer drawCursorTR;
 
     public void Start()
     {
@@ -24,14 +28,11 @@ public class MicrophoneRecorder : MonoBehaviour
     {
         if (isDrawing)
         {
-            drawCursorTR.enabled = true;
+            cursorCopyInst = Instantiate(cursorCopy, drawingCursor.transform.position, Quaternion.identity);
+            cursorCopyInst.transform.localScale = drawingCursor.transform.localScale;
+            cursorCopyList.Add(cursorCopyInst);
             moveForwards = moveForwards+(Time.deltaTime * forwardsCoefficient);
-            drawCursorTR.widthMultiplier = drawingCursor.transform.localScale.y; 
             drawingCursor.transform.position = new Vector3(transform.position.x+(moveForwards+Time.deltaTime),2.96f,transform.position.z);
-        }
-        else
-        {
-            drawCursorTR.enabled = false;
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
@@ -69,6 +70,13 @@ public class MicrophoneRecorder : MonoBehaviour
 
     public IEnumerator startProcess()
     {
+        if (cursorCopyList.Count > 0)
+        {
+            for (int i = 0; i < cursorCopyList.Count; i++)
+            {
+                Destroy(cursorCopyList[i]);
+            }
+        }
         StartRecording();
         isDrawing = true;
         yield return new WaitForSeconds(6);
