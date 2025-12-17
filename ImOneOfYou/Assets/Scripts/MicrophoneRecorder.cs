@@ -100,6 +100,13 @@ public class MicrophoneRecorder : MonoBehaviour
 
     public void StopRecording()
     {
+        if (cursorCopyList.Count > 0)
+        {
+            for (int i = 0; i < cursorCopyList.Count; i++)
+            {
+                Destroy(cursorCopyList[i]);
+            }
+        }
         drawingCursor.transform.position = new Vector3(arrowoffsetx, 2.96f, -3.05f);
         moveForwards = 0;
         audioDrawScript.drawNow = true;

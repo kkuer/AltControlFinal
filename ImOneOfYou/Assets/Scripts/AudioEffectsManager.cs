@@ -15,8 +15,8 @@ public class AudioEffectsManager : MonoBehaviour
     public List<AudioClip> clipList = new List<AudioClip>();
 
     //TESTING INPUTS
-    [SerializeField] private float currentSpeed;
-    [SerializeField] private float currentPitch;
+    [SerializeField] public float currentSpeed;
+    [SerializeField] public float currentPitch;
 
     [SerializeField] private Keyboard k;
 

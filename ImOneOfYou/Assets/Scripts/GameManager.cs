@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     public float pitchHigh;
     public float pitchLow;
 
+    public AlienNoise alienSO;
+
     //public string exampleString;
 
     //public TextMeshProUGUI targetText;
@@ -41,12 +43,16 @@ public class GameManager : MonoBehaviour
 
     public AudioClip selectedAudio;
 
-    public float correctRange;
+    public float correctWaveRange;
 
-    public float waveMagnitude;
+    public float waveMagnitudeComp;
+    public float waveSpeedComp;
+    public float wavePitchComp;
 
     public List<AlienNoise> clipList = new List<AlienNoise>();
     public List<AlienNoise> usedClips = new List<AlienNoise>();
+
+    public AudioEffectsManager audMan;
 
     public static GameManager Instance { get; private set; }
 
@@ -60,7 +66,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator startRecordin()
     {
-        yield return new WaitForSeconds(6);
+        yield return new WaitForSeconds(alienSO.clip.length + 1);
         timerText.enabled = true;
         timerText.text = "3";
         yield return new WaitForSeconds(1);
@@ -70,7 +76,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         timerText.text = "GO!";
         microphoneRecorderScript.startFunction();
-        yield return new WaitForSeconds(6);
+        yield return new WaitForSeconds(alienSO.clip.length);
         //microphoneRecorderScript.StopRecording();
         timerText.enabled = false;
     }
@@ -121,10 +127,15 @@ public class GameManager : MonoBehaviour
 
     public void CompareAudio()
     {
-        waveMagnitude = Mathf.Abs(audioDrawerTarget.waveformPercentage - audioDrawerInput.waveformPercentage);
-        if (waveMagnitude < correctRange)
+        waveMagnitudeComp = Mathf.Abs(audioDrawerTarget.waveformPercentage - audioDrawerInput.waveformPercentage);
+        wavePitchComp = Mathf.Abs(alienSO.referencePitch - audMan.currentPitch);
+        waveSpeedComp = Mathf.Abs(alienSO.referenceSpeed - audMan.currentSpeed);
+
+        float howGood = (waveMagnitudeComp + wavePitchComp + waveSpeedComp) / 3;
+
+        if (howGood < correctWaveRange)
         {
-            suspicionPercent = suspicionPercent - (correctRange - waveMagnitude);
+            suspicionPercent = suspicionPercent - (correctWaveRange - howGood);
             roundCount++;
             if (suspicionPercent < 0)
             {
@@ -157,7 +168,11 @@ public class GameManager : MonoBehaviour
         AlienNoise newNoise = availableClips[Random.Range(0, clipList.Count)];
         usedClips.Add(newNoise);
 
+        newNoise.referencePitch = Random.Range(pitchLow, pitchHigh);
+        newNoise.referenceSpeed = Random.Range(speedLow, speedHigh);
+
         selectedAudio = newNoise.clip;
+        alienSO = newNoise;
 
         targetAudio.clip = selectedAudio;
         //targetAudio.pitch = Random.Range(pitchLow,pitchHigh);
