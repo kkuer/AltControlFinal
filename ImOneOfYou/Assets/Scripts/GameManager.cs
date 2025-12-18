@@ -21,8 +21,13 @@ public class GameManager : MonoBehaviour
     public float pitchHigh;
     public float pitchLow;
 
+    public float pitchToMatch;
+    public float speedToMatch;
+
     public AlienNoise alienSO;
 
+
+    public AudioEffectsManager alienAudSource;
     //public string exampleString;
 
     //public TextMeshProUGUI targetText;
@@ -66,7 +71,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator startRecordin()
     {
-        yield return new WaitForSeconds(alienSO.clip.length + 1);
+        yield return new WaitForSeconds(targetAudio.clip.length + 1);
         timerText.enabled = true;
         timerText.text = "3";
         yield return new WaitForSeconds(1);
@@ -76,7 +81,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         timerText.text = "GO!";
         microphoneRecorderScript.startFunction();
-        yield return new WaitForSeconds(alienSO.clip.length);
+        yield return new WaitForSeconds(targetAudio.clip.length);
         //microphoneRecorderScript.StopRecording();
         timerText.enabled = false;
     }
@@ -128,8 +133,8 @@ public class GameManager : MonoBehaviour
     public void CompareAudio()
     {
         waveMagnitudeComp = Mathf.Abs(audioDrawerTarget.waveformPercentage - audioDrawerInput.waveformPercentage);
-        wavePitchComp = Mathf.Abs(alienSO.referencePitch - audMan.currentPitch);
-        waveSpeedComp = Mathf.Abs(alienSO.referenceSpeed - audMan.currentSpeed);
+        wavePitchComp = Mathf.Abs(pitchToMatch - audMan.currentPitch);
+        waveSpeedComp = Mathf.Abs(speedToMatch - audMan.currentSpeed);
 
         float howGood = (waveMagnitudeComp + wavePitchComp + waveSpeedComp) / 3;
 
@@ -166,17 +171,23 @@ public class GameManager : MonoBehaviour
         if (availableClips.Count == 0) { usedClips.Clear(); availableClips = clipList.ToList(); }
 
         AlienNoise newNoise = availableClips[Random.Range(0, clipList.Count)];
+
+
         usedClips.Add(newNoise);
 
-        newNoise.referencePitch = Random.Range(pitchLow, pitchHigh);
-        newNoise.referenceSpeed = Random.Range(speedLow, speedHigh);
+        pitchToMatch = Random.Range(newNoise.pitchLowSO, newNoise.pitchHighSO);
+        speedToMatch = Random.Range(newNoise.speedLowSO, newNoise.speedHighSO);
 
         selectedAudio = newNoise.clip;
         alienSO = newNoise;
 
         targetAudio.clip = selectedAudio;
-        //targetAudio.pitch = Random.Range(pitchLow,pitchHigh);
+
+        targetAudio.GetComponent<AudioEffectsManager>().currentSpeed = speedToMatch;
+        targetAudio.GetComponent<AudioEffectsManager>().currentPitch = pitchToMatch;
+
         targetAudio.Play();
+
         audioDrawerTarget.drawNow = true;
         StartCoroutine(startRecordin());
         //audioDrawerInput.GetWaveform();

@@ -751,6 +751,8 @@ MonoBehaviour:
   speedLow: 0.8
   pitchHigh: 1.2
   pitchLow: 0.8
+  pitchToMatch: 0
+  speedToMatch: 0
   alienSO: {fileID: 0}
   susText: {fileID: 1802257927}
   roundText: {fileID: 976012614}
@@ -772,7 +774,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: abd561aa4f19f964e9bc3f448df0c81b, type: 2}
   - {fileID: 11400000, guid: a845c0f76c49f48459a723f1de3e0333, type: 2}
   usedClips: []
-  audMan: {fileID: 2090674735}
+  audMan: {fileID: 1941772150}
 --- !u!4 &508061000
 Transform:
   m_ObjectHideFlags: 0
@@ -4475,17 +4477,6 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 8670357671616951403, guid: d761149501e31604cb928d675131dbaa, type: 3}
   m_PrefabInstance: {fileID: 6608214029806352725}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2090674735 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3740866308789698682, guid: d761149501e31604cb928d675131dbaa, type: 3}
-  m_PrefabInstance: {fileID: 6608214029806352725}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2ddc91da7c495a44a8dcddfb41accca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AudioEffectsManager
 --- !u!1001 &4413962649739238962
 PrefabInstance:
   m_ObjectHideFlags: 0
