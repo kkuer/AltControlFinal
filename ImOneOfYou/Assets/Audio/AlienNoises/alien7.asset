@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ef6be1da783dff4e80dcb7ab3797a7f, type: 3}
-  m_Name: alien1
+  m_Name: alien7
   m_EditorClassIdentifier: Assembly-CSharp::AlienNoise
-  clip: {fileID: 8300000, guid: 2788e5f3b21d138438f1ded792c66701, type: 3}
+  clip: {fileID: 8300000, guid: f1764821b7412c443a4b9fa9e7d894d8, type: 3}
   referencePitch: 1
   referenceSpeed: 1
   speedHighSO: 0

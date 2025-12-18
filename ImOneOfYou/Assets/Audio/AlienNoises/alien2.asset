@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ef6be1da783dff4e80dcb7ab3797a7f, type: 3}
   m_Name: alien2
   m_EditorClassIdentifier: Assembly-CSharp::AlienNoise
-  clip: {fileID: 8300000, guid: 53501ee6ffeb1474296c6157091efa33, type: 3}
+  clip: {fileID: 8300000, guid: c430bc3e8cf61ec4ca4777da22755ae9, type: 3}
   referencePitch: 1
   referenceSpeed: 1
+  speedHighSO: 0
+  speedLowSO: 0
+  pitchHighSO: 0
+  pitchLowSO: 0
   frequencyColor: {r: 1, g: 1, b: 1, a: 1}
