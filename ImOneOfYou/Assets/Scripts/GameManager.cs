@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator startRecordin()
     {
-        yield return new WaitForSeconds(targetAudio.clip.length + 1);
+        yield return new WaitForSeconds(targetAudio.clip.length);
         timerText.enabled = true;
         timerText.text = "3";
         yield return new WaitForSeconds(1);

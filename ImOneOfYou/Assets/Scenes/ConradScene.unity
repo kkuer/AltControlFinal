@@ -2799,6 +2799,7 @@ MonoBehaviour:
   waveformPercentage: 0
   backgroundPercentage: 0
   pixels: []
+  isRecorder: 0
 --- !u!82 &1435855197
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4075,7 +4076,7 @@ MonoBehaviour:
   drawImmediately: 1
   width: 1024
   height: 64
-  background: {r: 0, g: 0, b: 0, a: 0.27058825}
+  background: {r: 0, g: 0, b: 0, a: 1}
   foreground: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   waveformPixelCount: 0
   backgroundPixelCount: 0
@@ -4083,6 +4084,7 @@ MonoBehaviour:
   waveformPercentage: 0
   backgroundPercentage: 0
   pixels: []
+  isRecorder: 1
 --- !u!82 &1941772145
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4270,7 +4272,7 @@ MonoBehaviour:
   audLoud: 0
   arrowoffsetx: -6.45
   moveForwards: 0
-  forwardsCoefficient: 1.7
+  forwardsCoefficient: 5.1
   drawingCursor: {fileID: 1684423293}
   cursorCopy: {fileID: 7483307023166693281, guid: 769c5efffa0b9ae4d85949d1e9be0dfe, type: 3}
   cursorCopyInst: {fileID: 0}
@@ -4637,9 +4639,9 @@ SceneRoots:
   - {fileID: 508061000}
   - {fileID: 1435855199}
   - {fileID: 1941772147}
+  - {fileID: 6608214029806352725}
   - {fileID: 1482157315}
   - {fileID: 1551034085}
-  - {fileID: 6608214029806352725}
   - {fileID: 1433815165}
   - {fileID: 1104776253}
   - {fileID: 4413962649739238962}

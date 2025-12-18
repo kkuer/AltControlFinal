@@ -36,7 +36,7 @@ public class MicrophoneRecorder : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            startFunction();
+            PlayRecording();
         }
         //if (recordedClip != null)
         //{
@@ -79,7 +79,7 @@ public class MicrophoneRecorder : MonoBehaviour
         }
         StartRecording();
         isDrawing = true;
-        yield return new WaitForSeconds(6);
+        yield return new WaitForSeconds(GameManager.Instance.targetAudio.clip.length);
         StopRecording();
         isDrawing = false;
         PlayRecording();
@@ -116,8 +116,8 @@ public class MicrophoneRecorder : MonoBehaviour
 
     public void PlayRecording()
     {
-        audioDrawScript.drawNow = true;
-        audioDrawScript.DrawWaveform();
+        //audioDrawScript.drawNow = true;
+        //audioDrawScript.DrawWaveform();
         audioSource.clip = recordedClip;
         audioSource.Play();
     }

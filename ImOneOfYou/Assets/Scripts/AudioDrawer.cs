@@ -16,6 +16,7 @@ public class AudioDrawer : MonoBehaviour
     public float waveformPercentage;
     public float backgroundPercentage;
     public Color[] pixels;
+    public bool isRecorder;
 
     //public GameObject arrow = null;
     //public Camera cam = null;
@@ -124,6 +125,11 @@ public class AudioDrawer : MonoBehaviour
 
 
         backgroundPercentage = Mathf.Round((backgroundPixelCount / arrayCount) * 10000)/100;
+        if (isRecorder)
+        {
+            backgroundPercentage = backgroundPercentage/3;
+            waveformPercentage = waveformPercentage*3;
+        }
         waveformPercentage = Mathf.Round((waveformPixelCount / arrayCount) * 10000)/100;
         //if (backgroundPercentage <= 0)
         //{
