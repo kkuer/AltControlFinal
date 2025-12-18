@@ -21,7 +21,7 @@ public class MicrophoneRecorder : MonoBehaviour
 
     public void Start()
     {
-        drawingCursor.transform.position = new Vector3(arrowoffsetx,2.96f,-3.05f);
+        drawingCursor.transform.position = new Vector3(arrowoffsetx,2.945f,-3.05f);
     }
 
     public void Update()
@@ -107,7 +107,7 @@ public class MicrophoneRecorder : MonoBehaviour
                 Destroy(cursorCopyList[i]);
             }
         }
-        drawingCursor.transform.position = new Vector3(arrowoffsetx, 2.96f, -3.05f);
+        drawingCursor.transform.position = new Vector3(arrowoffsetx, 2.92f, -3.05f);
         moveForwards = 0;
         audioDrawScript.drawNow = true;
         audioDrawScript.DrawWaveform();
