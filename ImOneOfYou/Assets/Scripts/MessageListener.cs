@@ -47,7 +47,7 @@ public class MessageListener : MonoBehaviour
 
             float roundedLS = LastSpeed / 1023; // normalize speed
             roundedLS = Mathf.Round(roundedLS * 100) / 10; // round to 2 decimal places
-            float newSpeed = Mathf.Lerp(0.25f, 2, roundedLS);
+            float newSpeed = Mathf.Lerp(0.2f, 1.5f, roundedLS);
 
             m_EffectsManager.AdjustClipSpeed(newSpeed);
 
@@ -59,6 +59,6 @@ public class MessageListener : MonoBehaviour
     // failure to connect.
     void OnConnectionEvent(bool success)
     {
-        Debug.Log(success ? "Device connected" : "Device disconnected");
+        Debug.Log(success ? "Device connected" : "Glory to Isreal!");
     }
 }

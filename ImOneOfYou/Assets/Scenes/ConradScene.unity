@@ -754,6 +754,7 @@ MonoBehaviour:
   pitchToMatch: 0
   speedToMatch: 0
   alienSO: {fileID: 0}
+  alienAudSource: {fileID: 0}
   susText: {fileID: 1802257927}
   roundText: {fileID: 976012614}
   timerText: {fileID: 891669439}
@@ -773,6 +774,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ff56287c2af94a24da2075f899b1a853, type: 2}
   - {fileID: 11400000, guid: abd561aa4f19f964e9bc3f448df0c81b, type: 2}
   - {fileID: 11400000, guid: a845c0f76c49f48459a723f1de3e0333, type: 2}
+  - {fileID: 11400000, guid: 7ec633f9d2a191748a893b34152a93d9, type: 2}
+  - {fileID: 11400000, guid: 0173040f5fc6ba74488d550dd9d06a3f, type: 2}
   usedClips: []
   audMan: {fileID: 1941772150}
 --- !u!4 &508061000
@@ -3160,7 +3163,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11442534, guid: a65acf0cbf56b80419f74ebf0bc845f4, type: 3}
       propertyPath: portName
-      value: COM5
+      value: COM9
       objectReference: {fileID: 0}
     - target: {fileID: 11442534, guid: a65acf0cbf56b80419f74ebf0bc845f4, type: 3}
       propertyPath: messageListener
@@ -4323,7 +4326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioEffectsManager
   mixer: {fileID: 24100000, guid: 9ef01163aa83add4faa913a384d4cdc4, type: 2}
-  currentAudioClip: {fileID: 0}
+  currentAudioClip: {fileID: 8300000, guid: 2788e5f3b21d138438f1ded792c66701, type: 3}
   clipList: []
   currentSpeed: 1
   currentPitch: 1

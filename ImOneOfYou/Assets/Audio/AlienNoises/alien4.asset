@@ -15,8 +15,8 @@ MonoBehaviour:
   clip: {fileID: 8300000, guid: de0541bf05cc125439d219f4925c4445, type: 3}
   referencePitch: 1
   referenceSpeed: 1
-  speedHighSO: 0
-  speedLowSO: 0
-  pitchHighSO: 0
-  pitchLowSO: 0
+  speedHighSO: 1.5
+  speedLowSO: 0.2
+  pitchHighSO: 2
+  pitchLowSO: 0.5
   frequencyColor: {r: 1, g: 1, b: 1, a: 1}
