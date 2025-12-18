@@ -2800,6 +2800,7 @@ MonoBehaviour:
   backgroundPercentage: 0
   pixels: []
   isRecorder: 0
+  recorderGrace: 0
 --- !u!82 &1435855197
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4085,6 +4086,7 @@ MonoBehaviour:
   backgroundPercentage: 0
   pixels: []
   isRecorder: 1
+  recorderGrace: 18
 --- !u!82 &1941772145
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4574,6 +4576,10 @@ PrefabInstance:
     - target: {fileID: 5175488257370913064, guid: d761149501e31604cb928d675131dbaa, type: 3}
       propertyPath: m_Name
       value: AudioEffectsManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 5733368747214452114, guid: d761149501e31604cb928d675131dbaa, type: 3}
+      propertyPath: recorderGrace
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7745093539345726108, guid: d761149501e31604cb928d675131dbaa, type: 3}
       propertyPath: m_LocalPosition.x
