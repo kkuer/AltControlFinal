@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using UnityEditor.U2D;
+using UnityEditor.Build;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,6 +28,16 @@ public class GameManager : MonoBehaviour
     public float speedToMatch;
 
     public AlienNoise alienSO;
+
+    public Image refColor;
+    public Image yourColor;
+
+    public SpriteRenderer alienPicture;
+
+    public List<Sprite> sprites = new List<Sprite>();
+    public List<Color> colorFreqs = new List<Color>();
+
+    public Color currentColor;
 
 
     public AudioEffectsManager alienAudSource;
@@ -63,10 +76,19 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        timerText.enabled = false;
         if (Instance == null) { Instance = this; }
         else { Destroy(gameObject); }
+        Debug.Log("AWAKE");
+
+    }
+
+    private void Start()
+    {
         RandomizeTarget();
+        currentColor = colorFreqs[0];
+        ChangeColorFreq();
+        timerText.enabled = false;
+        Debug.Log("Start");
     }
 
     public IEnumerator startRecordin()
@@ -91,6 +113,11 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             CompareAudio();
+        }
+
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            ChangeColorFreq();
         }
         susText.text = $"Suspicion: {Mathf.RoundToInt(suspicionPercent)}%";
         roundText.text = $"Successful Social Interactions: {roundCount}. Good for you.";
@@ -136,7 +163,18 @@ public class GameManager : MonoBehaviour
         wavePitchComp = Mathf.Abs(pitchToMatch - audMan.currentPitch);
         waveSpeedComp = Mathf.Abs(speedToMatch - audMan.currentSpeed);
 
-        float howGood = (waveMagnitudeComp + wavePitchComp + waveSpeedComp) / 3;
+
+
+        float howGood = howGood = (waveMagnitudeComp + wavePitchComp + waveSpeedComp) / 3;
+
+        //if (currentColor == alienSO.frequencyColor)
+        //{
+        //    howGood = (waveMagnitudeComp + wavePitchComp + waveSpeedComp) / 3 - 5;
+        //}
+        //else
+        //{
+        //    howGood = (waveMagnitudeComp + wavePitchComp + waveSpeedComp) / 3 + 5;
+        //}
 
         if (howGood < correctWaveRange)
         {
@@ -152,7 +190,7 @@ public class GameManager : MonoBehaviour
         else
         {
             StartCoroutine(RandomSounds());
-            suspicionPercent = suspicionPercent + 20;
+            suspicionPercent = suspicionPercent + Random.Range(5, 22);
             Debug.Log("Fail!");
             if (suspicionPercent >= 100)
             {
@@ -168,15 +206,27 @@ public class GameManager : MonoBehaviour
     public void RandomizeTarget()
     {
         var availableClips = clipList.Except(usedClips).ToList();
-        if (availableClips.Count == 0) { usedClips.Clear(); availableClips = clipList.ToList(); }
+        if (availableClips.Count == 0)
+        {
+            usedClips.Clear();
+            availableClips = clipList.ToList();
+        }
 
-        AlienNoise newNoise = availableClips[Random.Range(0, clipList.Count)];
+        AlienNoise newNoise = availableClips[Random.Range(0, availableClips.Count)];
 
+        alienPicture.sprite = sprites[Random.Range(0, sprites.Count)];
+        //Color c = new Color(Random.Range(100, 200), Random.Range(100, 200), Random.Range(100, 200), 255);
+        //alienPicture.color = c;
 
         usedClips.Add(newNoise);
 
         pitchToMatch = Random.Range(newNoise.pitchLowSO, newNoise.pitchHighSO);
         speedToMatch = Random.Range(newNoise.speedLowSO, newNoise.speedHighSO);
+
+        alienAudSource.AdjustClipSpeed(speedToMatch);
+        alienAudSource.AdjustClipPitch(pitchToMatch);
+
+        refColor.color = newNoise.frequencyColor;
 
         selectedAudio = newNoise.clip;
         alienSO = newNoise;
@@ -192,6 +242,31 @@ public class GameManager : MonoBehaviour
         StartCoroutine(startRecordin());
         //audioDrawerInput.GetWaveform();
         //audioDrawerInput.DrawWaveform();
+    }
+
+    public void ChangeColorFreq()
+    {
+        bool found = false;
+
+        foreach (Color c in colorFreqs)
+        {
+            if (!found && c != null && c == currentColor)
+            {
+                int pos = colorFreqs.IndexOf(c);
+                found = true;
+                Debug.Log(pos);
+                if (pos >= colorFreqs.Count - 1)
+                {
+                    currentColor = colorFreqs[0];
+                }
+                else
+                {
+                    currentColor = colorFreqs[pos + 1];
+                }
+            }
+        }
+
+        yourColor.color = currentColor;
     }
 
     public IEnumerator RandomSounds()

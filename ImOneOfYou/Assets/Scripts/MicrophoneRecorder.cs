@@ -21,7 +21,7 @@ public class MicrophoneRecorder : MonoBehaviour
 
     public void Start()
     {
-        drawingCursor.transform.position = new Vector3(arrowoffsetx,2.945f,-3.05f);
+        drawingCursor.transform.position = new Vector3(arrowoffsetx,2.945f,-4f);
     }
 
     public void Update()
