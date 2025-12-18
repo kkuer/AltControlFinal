@@ -32,7 +32,7 @@ public class MessageListener : MonoBehaviour
             LastPitch = float.Parse(numString);
 
             float roundedLP = LastPitch / 1023; // normalize pitch
-            roundedLP = Mathf.Round(roundedLP * 100) / 100; // round to 2 decimal places
+            roundedLP = Mathf.Round(roundedLP * 100) / 10; // round to 2 decimal places
             // min should be 0.5f, max should be 2
             float newPitch = Mathf.Lerp(0.5f, 2, roundedLP);
 
@@ -46,7 +46,7 @@ public class MessageListener : MonoBehaviour
             LastSpeed = float.Parse(numString);
 
             float roundedLS = LastSpeed / 1023; // normalize speed
-            roundedLS = Mathf.Round(roundedLS * 100) / 100; // round to 2 decimal places
+            roundedLS = Mathf.Round(roundedLS * 100) / 10; // round to 2 decimal places
             float newSpeed = Mathf.Lerp(0.25f, 2, roundedLS);
 
             m_EffectsManager.AdjustClipSpeed(newSpeed);

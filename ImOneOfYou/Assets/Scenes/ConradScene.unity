@@ -916,7 +916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 291b24313e65c044e861decef96b2d18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MessageListener
-  m_EffectsManager: {fileID: 2090674735}
+  m_EffectsManager: {fileID: 1941772150}
 --- !u!1 &709392193
 GameObject:
   m_ObjectHideFlags: 0
@@ -3877,6 +3877,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1941772147}
+  - component: {fileID: 1941772150}
   - component: {fileID: 1941772146}
   - component: {fileID: 1941772145}
   - component: {fileID: 1941772144}
@@ -3922,11 +3923,11 @@ AudioSource:
   m_GameObject: {fileID: 1941772143}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 9ef01163aa83add4faa913a384d4cdc4, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 0c762542291480a4085e7093a5ce9a0f, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -4143,6 +4144,23 @@ MonoBehaviour:
           Culture=neutral, PublicKeyToken=null
         Value0: {x: 0.01, y: 0.1, z: 1}
         Value1: {x: 0.01, y: 0.65, z: 1}
+--- !u!114 &1941772150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941772143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2ddc91da7c495a44a8dcddfb41accca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioEffectsManager
+  mixer: {fileID: 24100000, guid: 9ef01163aa83add4faa913a384d4cdc4, type: 2}
+  currentAudioClip: {fileID: 0}
+  clipList: []
+  currentSpeed: 1
+  currentPitch: 1
 --- !u!1 &1942659317
 GameObject:
   m_ObjectHideFlags: 0

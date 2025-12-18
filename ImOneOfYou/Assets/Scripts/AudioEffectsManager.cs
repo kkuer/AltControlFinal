@@ -5,8 +5,6 @@ using UnityEngine.InputSystem;
 
 public class AudioEffectsManager : MonoBehaviour
 {
-    public static AudioEffectsManager Instance { get; private set; }
-
     private AudioSource source;
 
     [SerializeField] AudioMixer mixer;
@@ -22,9 +20,6 @@ public class AudioEffectsManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) { Instance = this; }
-        else { Destroy(gameObject); }
-
         source = GetComponent<AudioSource>();
     }
 
