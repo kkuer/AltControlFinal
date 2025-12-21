@@ -5,9 +5,10 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using System.Linq;
-using UnityEditor.U2D;
-using UnityEditor.Build;
+//using UnityEditor.U2D;
+//using UnityEditor.Build;
 using UnityEngine.UI;
+using Unity.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
 
     public int roundCount;
     public float suspicionPercent;
+    public float suspicionCoefficient;
 
     public float speedHigh;
     public float speedLow;
@@ -34,6 +36,12 @@ public class GameManager : MonoBehaviour
 
     public SpriteRenderer alienPicture;
 
+    public List<float> dataListOriginal = new List<float>();
+    public List<float> dataListRecording = new List<float>();
+    public float dataListOriginalSum;
+    public float dataListRecordingSum;
+    public float suspicionMaxReduction;
+
     public List<Sprite> sprites = new List<Sprite>();
     public List<Color> colorFreqs = new List<Color>();
 
@@ -49,6 +57,9 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI roundText;
     public TextMeshProUGUI timerText;
 
+    public enum Recording { Recording, Not};
+    public Recording recordStatus = Recording.Recording;
+
     //public TMP_InputField inputText;  
 
     public AudioDrawer audioDrawerTarget;
@@ -60,6 +71,7 @@ public class GameManager : MonoBehaviour
     public AudioSource inputAudio;
 
     public AudioClip selectedAudio;
+    public AudioClip recordedAudio;
 
     public float correctWaveRange;
 
@@ -70,7 +82,9 @@ public class GameManager : MonoBehaviour
     public List<AlienNoise> clipList = new List<AlienNoise>();
     public List<AlienNoise> usedClips = new List<AlienNoise>();
 
-    public AudioEffectsManager audMan;
+    public RecordData dataScriptOriginal;
+    public RecordData dataScriptRecording;
+
 
     public static GameManager Instance { get; private set; }
 
@@ -79,7 +93,7 @@ public class GameManager : MonoBehaviour
         if (Instance == null) { Instance = this; }
         else { Destroy(gameObject); }
         Debug.Log("AWAKE");
-
+        recordStatus = Recording.Recording;
     }
 
     private void Start()
@@ -93,6 +107,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator startRecordin()
     {
+        dataScriptRecording.ClearList();
         yield return new WaitForSeconds(targetAudio.clip.length);
         timerText.enabled = true;
         timerText.text = "3";
@@ -104,12 +119,36 @@ public class GameManager : MonoBehaviour
         timerText.text = "GO!";
         microphoneRecorderScript.startFunction();
         yield return new WaitForSeconds(targetAudio.clip.length);
-        //microphoneRecorderScript.StopRecording();
+        microphoneRecorderScript.StopRecording();
+        recordStatus = Recording.Not;
         timerText.enabled = false;
+    }
+
+    public IEnumerator secondRecordin()
+    {
+        dataScriptRecording.ClearList();
+        timerText.enabled = true;
+        timerText.text = "3";
+        yield return new WaitForSeconds(1);
+        timerText.text = "2";
+        yield return new WaitForSeconds(1);
+        timerText.text = "1";
+        yield return new WaitForSeconds(1);
+        timerText.text = "GO!";
+        microphoneRecorderScript.startFunction();
+        yield return new WaitForSeconds(targetAudio.clip.length);
+        microphoneRecorderScript.StopRecording();
+        timerText.enabled = false;
+        microphoneRecorderScript.audVisMan.BeatToggleOff();
     }
 
     public void Update()
     {
+        if (recordStatus == Recording.Not)
+        {
+            suspicionPercent = suspicionPercent + (suspicionCoefficient * Time.deltaTime);
+        }
+
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             CompareAudio();
@@ -121,6 +160,8 @@ public class GameManager : MonoBehaviour
         }
         susText.text = $"Suspicion: {Mathf.RoundToInt(suspicionPercent)}%";
         roundText.text = $"Successful Social Interactions: {roundCount}. Good for you.";
+        
+
         //if (Input.GetKeyDown(KeyCode.R))
         //{
         //    GenerateString();
@@ -159,48 +200,33 @@ public class GameManager : MonoBehaviour
 
     public void CompareAudio()
     {
-        waveMagnitudeComp = Mathf.Abs(audioDrawerTarget.waveformPercentage - audioDrawerInput.waveformPercentage);
-        wavePitchComp = Mathf.Abs(pitchToMatch - audMan.currentPitch);
-        waveSpeedComp = Mathf.Abs(speedToMatch - audMan.currentSpeed);
+        var numSamplesRecorded = inputAudio.clip.samples;
+        var samplesRecorded = new NativeArray<float>(numSamplesRecorded, Allocator.Temp);
 
-
-
-        float howGood = howGood = (waveMagnitudeComp + wavePitchComp + waveSpeedComp) / 3;
-
-        //if (currentColor == alienSO.frequencyColor)
-        //{
-        //    howGood = (waveMagnitudeComp + wavePitchComp + waveSpeedComp) / 3 - 5;
-        //}
-        //else
-        //{
-        //    howGood = (waveMagnitudeComp + wavePitchComp + waveSpeedComp) / 3 + 5;
-        //}
-
-        if (howGood < correctWaveRange)
+        inputAudio.clip.GetData(samplesRecorded, 0);
+        for (int i = 0; i < samplesRecorded.Length; i++)
         {
-            suspicionPercent = suspicionPercent - (correctWaveRange - howGood);
-            roundCount++;
-            if (suspicionPercent < 0)
-            {
-                suspicionPercent = 0;
-            }
-            StartCoroutine(RandomSounds());
-            Debug.Log("Success!");
+            dataListRecording.Add(samplesRecorded[i]);
+            dataListRecordingSum = dataListRecordingSum + samplesRecorded[i];
         }
-        else
+        var numSamplesTarget = targetAudio.clip.samples;
+        var samplesTarget = new NativeArray<float>(numSamplesTarget, Allocator.Temp);
+
+        targetAudio.clip.GetData(samplesTarget, 0);
+        for (int i = 0; i < samplesTarget.Length; i++)
         {
-            StartCoroutine(RandomSounds());
-            suspicionPercent = suspicionPercent + Random.Range(5, 22);
-            Debug.Log("Fail!");
-            if (suspicionPercent >= 100)
-            {
-                SceneManager.LoadScene(2);
-            }
-            else
-            {
-                roundCount++;
-            }
+            dataListOriginal.Add(samplesTarget[i]);
+            dataListOriginalSum = dataListOriginalSum + samplesTarget[i];
         }
+        suspicionPercent = suspicionPercent - (suspicionMaxReduction - Mathf.Abs(dataListRecordingSum - dataListOriginalSum));
+        if (suspicionPercent < 0)
+        {
+            suspicionPercent = 0;
+        }
+
+        StartCoroutine(RandomSounds());
+        //dataScriptOriginal.ClearList();
+        //dataScriptRecording.ClearList();
     }
 
     public void RandomizeTarget()
@@ -246,27 +272,28 @@ public class GameManager : MonoBehaviour
 
     public void ChangeColorFreq()
     {
-        bool found = false;
+        StartCoroutine(secondRecordin());
+        //bool found = false;
 
-        foreach (Color c in colorFreqs)
-        {
-            if (!found && c != null && c == currentColor)
-            {
-                int pos = colorFreqs.IndexOf(c);
-                found = true;
-                Debug.Log(pos);
-                if (pos >= colorFreqs.Count - 1)
-                {
-                    currentColor = colorFreqs[0];
-                }
-                else
-                {
-                    currentColor = colorFreqs[pos + 1];
-                }
-            }
-        }
+        //foreach (Color c in colorFreqs)
+        //{
+        //    if (!found && c != null && c == currentColor)
+        //    {
+        //        int pos = colorFreqs.IndexOf(c);
+        //        found = true;
+        //        Debug.Log(pos);
+        //        if (pos >= colorFreqs.Count - 1)
+        //        {
+        //            currentColor = colorFreqs[0];
+        //        }
+        //        else
+        //        {
+        //            currentColor = colorFreqs[pos + 1];
+        //        }
+        //    }
+        //}
 
-        yourColor.color = currentColor;
+        //yourColor.color = currentColor;
     }
 
     public IEnumerator RandomSounds()

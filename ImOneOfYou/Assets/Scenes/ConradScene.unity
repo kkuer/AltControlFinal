@@ -382,6 +382,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 98183691}
   m_CullTransparentMesh: 1
+--- !u!1 &192338651 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5175488257370913064, guid: d761149501e31604cb928d675131dbaa, type: 3}
+  m_PrefabInstance: {fileID: 6608214029806352725}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &236806642
 GameObject:
   m_ObjectHideFlags: 0
@@ -1097,6 +1102,7 @@ MonoBehaviour:
   maxCharAmount: 10
   roundCount: 0
   suspicionPercent: 0
+  suspicionCoefficient: 1
   speedHigh: 1.2
   speedLow: 0.8
   pitchHigh: 1.2
@@ -1107,6 +1113,11 @@ MonoBehaviour:
   refColor: {fileID: 1078621848}
   yourColor: {fileID: 451162959}
   alienPicture: {fileID: 1104776252}
+  dataListOriginal: []
+  dataListRecording: []
+  dataListOriginalSum: 0
+  dataListRecordingSum: 0
+  suspicionMaxReduction: 0
   sprites:
   - {fileID: 21300000, guid: a65efba51d8e06147ae92a3133f17fcb, type: 3}
   - {fileID: 21300000, guid: 4569f7bd708cdac44a0d314c4a761df0, type: 3}
@@ -1121,12 +1132,14 @@ MonoBehaviour:
   susText: {fileID: 1802257927}
   roundText: {fileID: 976012614}
   timerText: {fileID: 891669439}
+  recordStatus: 0
   audioDrawerTarget: {fileID: 1435855196}
   audioDrawerInput: {fileID: 1941772144}
   microphoneRecorderScript: {fileID: 1941772148}
   targetAudio: {fileID: 2090674732}
   inputAudio: {fileID: 1941772145}
   selectedAudio: {fileID: 0}
+  recordedAudio: {fileID: 0}
   correctWaveRange: 1
   waveMagnitudeComp: 0
   waveSpeedComp: 0
@@ -1140,7 +1153,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7ec633f9d2a191748a893b34152a93d9, type: 2}
   - {fileID: 11400000, guid: 0173040f5fc6ba74488d550dd9d06a3f, type: 2}
   usedClips: []
-  audMan: {fileID: 1941772150}
+  dataScriptOriginal: {fileID: 2090674740}
+  dataScriptRecording: {fileID: 1941772152}
 --- !u!4 &508061000
 Transform:
   m_ObjectHideFlags: 0
@@ -3876,7 +3890,7 @@ MonoBehaviour:
   _channel: 0
   _filterType: 0
   _autoGain: 0
-  _gain: 0
+  _gain: 6
   _dynamicRange: 12
   _smoothFall: 0
   _fallSpeed: 0.3
@@ -3941,7 +3955,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3962,7 +3976,7 @@ Transform:
   m_GameObject: {fileID: 1684423293}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.08, y: -1.22, z: -0.504}
+  m_LocalPosition: {x: -2.08, y: -0.225, z: -0.504}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4492,7 +4506,8 @@ GameObject:
   - component: {fileID: 1941772145}
   - component: {fileID: 1941772144}
   - component: {fileID: 1941772148}
-  - component: {fileID: 1941772149}
+  - component: {fileID: 1941772151}
+  - component: {fileID: 1941772152}
   m_Layer: 0
   m_Name: Recorder
   m_TagString: Untagged
@@ -4720,42 +4735,7 @@ MonoBehaviour:
   cursorCopyList: []
   audioSource: {fileID: 1941772145}
   audioDrawScript: {fileID: 1941772144}
---- !u!114 &1941772149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1941772143}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74c3e183ec27ba64d83e010bf18edb92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Lasp.Runtime::Lasp.AudioLevelTracker
-  _useDefaultDevice: 0
-  _deviceID: 
-  _channel: 0
-  _filterType: 0
-  _autoGain: 0
-  _gain: 0
-  _dynamicRange: 12
-  _smoothFall: 0
-  _fallSpeed: 0.3
-  _propertyBinders:
-  - rid: 5084815031456498062
-  references:
-    version: 2
-    RefIds:
-    - rid: 5084815031456498062
-      type: {class: Vector3PropertyBinder, ns: Lasp, asm: Lasp.Runtime}
-      data:
-        Enabled: 1
-        Target: {fileID: 847873309}
-        PropertyName: localScale
-        _propertyType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
-        Value0: {x: 0.01, y: 0.01, z: 1}
-        Value1: {x: 0.01, y: 0.65, z: 1}
+  audVisMan: {fileID: 1941772151}
 --- !u!114 &1941772150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4773,6 +4753,60 @@ MonoBehaviour:
   clipList: []
   currentSpeed: 1
   currentPitch: 1
+--- !u!114 &1941772151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941772143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790d7b7acd3f20b45b98878b305cdf00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioVisualizeManager
+  outputList: []
+  audioSource: {fileID: 1941772145}
+  tottalAudioSampleLength: 78336
+  maximumSampleValue: 0.6567688
+  minimumSampleValue: -0.6861572
+  Output: 0
+  maxOutputRecorded: 0
+  minOutputRecorded: 0
+  beat: 0
+  invokeMode: 1
+  blockSize: 0
+  algorithm: 0
+  multiplyByMinusOne: 0
+  refreshTime: 1
+  PushMultiplierPartOne: 0
+  PushMultiplierPartTwo: 1
+  tottalMultiplier: 1
+  ClampOutput: 0
+  minOutput: -1
+  maxOutput: 1
+  OnVolumeChange:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClipEnd:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1941772152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941772143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4ef8392e45286e47ba3051afd6a993f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RecordData
+  audioData: []
+  avmScript: {fileID: 1941772151}
+  prevValue: 0
+  newValue: 0
 --- !u!1 &1942659317
 GameObject:
   m_ObjectHideFlags: 0
@@ -4928,12 +4962,66 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3740866308789698682, guid: d761149501e31604cb928d675131dbaa, type: 3}
   m_PrefabInstance: {fileID: 6608214029806352725}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 192338651}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2ddc91da7c495a44a8dcddfb41accca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioEffectsManager
+--- !u!114 &2090674739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192338651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790d7b7acd3f20b45b98878b305cdf00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioVisualizeManager
+  outputList: []
+  audioSource: {fileID: 2090674732}
+  tottalAudioSampleLength: 0
+  maximumSampleValue: 0
+  minimumSampleValue: 0
+  Output: 0
+  maxOutputRecorded: 0
+  minOutputRecorded: 0
+  beat: 0
+  invokeMode: 0
+  blockSize: 0
+  algorithm: 0
+  multiplyByMinusOne: 0
+  refreshTime: 1
+  PushMultiplierPartOne: 0
+  PushMultiplierPartTwo: 1
+  tottalMultiplier: 1
+  ClampOutput: 0
+  minOutput: -1
+  maxOutput: 1
+  OnVolumeChange:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClipEnd:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &2090674740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192338651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4ef8392e45286e47ba3051afd6a993f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RecordData
+  audioData: []
+  avmScript: {fileID: 2090674739}
+  prevValue: 0
+  newValue: 0
 --- !u!1001 &4413962649739238962
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5086,7 +5174,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5175488257370913064, guid: d761149501e31604cb928d675131dbaa, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2090674739}
+    - targetCorrespondingSourceObject: {fileID: 5175488257370913064, guid: d761149501e31604cb928d675131dbaa, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2090674740}
   m_SourcePrefab: {fileID: 100100000, guid: d761149501e31604cb928d675131dbaa, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

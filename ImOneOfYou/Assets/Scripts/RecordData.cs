@@ -7,6 +7,7 @@ public class RecordData : MonoBehaviour
     public AudioVisualizeManager avmScript;
     public float prevValue;
     public float newValue;
+    public enum Stat {Accepting, Done}; 
 
     public void Start()
     {
@@ -23,4 +24,8 @@ public class RecordData : MonoBehaviour
         }
     }
 
+    public void ClearList()
+    {
+        audioData.Clear();
+    }
 }

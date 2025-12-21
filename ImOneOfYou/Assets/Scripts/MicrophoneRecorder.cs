@@ -18,6 +18,7 @@ public class MicrophoneRecorder : MonoBehaviour
     private AudioClip recordedClip;
     [SerializeField] AudioSource audioSource;
     public AudioDrawer audioDrawScript;
+    public AudioVisualizeManager audVisMan;
 
     public void Start()
     {
@@ -114,11 +115,18 @@ public class MicrophoneRecorder : MonoBehaviour
         Microphone.End(null);
     }
 
+    public void ResetThingIGuess()
+    {
+        audVisMan.BeatToggleOff();
+    }
+
     public void PlayRecording()
     {
         //audioDrawScript.drawNow = true;
         //audioDrawScript.DrawWaveform();
         audioSource.clip = recordedClip;
+        audVisMan.BeatToggleOn();
         audioSource.Play();
+        
     }
 }
