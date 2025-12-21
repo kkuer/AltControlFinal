@@ -161,6 +161,10 @@ public class GameManager : MonoBehaviour
         susText.text = $"Suspicion: {Mathf.RoundToInt(suspicionPercent)}%";
         roundText.text = $"Successful Social Interactions: {roundCount}. Good for you.";
         
+        if (suspicionPercent >100)
+        {
+            SceneManager.LoadScene(2);
+        }
 
         //if (Input.GetKeyDown(KeyCode.R))
         //{
@@ -218,7 +222,14 @@ public class GameManager : MonoBehaviour
             dataListOriginal.Add(samplesTarget[i]);
             dataListOriginalSum = dataListOriginalSum + samplesTarget[i];
         }
-        suspicionPercent = suspicionPercent - (suspicionMaxReduction - Mathf.Abs(dataListRecordingSum - dataListOriginalSum));
+        if ((Mathf.Abs(suspicionMaxReduction - Mathf.Abs(dataListRecordingSum - dataListOriginalSum))) > 20)
+        {
+            suspicionPercent = suspicionPercent - Random.Range(5, 10);
+        }
+        else
+        {
+            suspicionPercent = suspicionPercent - (Mathf.Abs(suspicionMaxReduction - Mathf.Abs(dataListRecordingSum - dataListOriginalSum)));
+        }
         if (suspicionPercent < 0)
         {
             suspicionPercent = 0;
